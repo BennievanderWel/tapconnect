@@ -1,35 +1,55 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import Panel from "../../ui/panel/Panel";
-import Input from "../../ui/input/Input";
-import Button from "../../ui/button/Button";
+import Panel from '../../ui/panel/Panel';
+import Input from '../../ui/input/Input';
+import Button from '../../ui/button/Button';
 
-import styles from "./Login.module.scss";
+import styles from './Login.module.scss';
 
-export default function Login({ onLogin, history }) {
+export default function Login({ onLogin }) {
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('rens@test.com');
+  const [password, setPassword] = useState('test');
 
   function handleLogin() {
     setLoading(true);
-    onLogin().catch(() => setLoading(false));
+    onLogin(email, password).catch(() => setLoading(false));
+  }
+
+  function onKeyPress(e) {
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
   }
 
   return (
     <div className={styles.Container}>
-      <h1>TeamPoint</h1>
+      <h1>TapConnect</h1>
       <Panel width="m" className={styles.LoginPanel}>
-        <Input disabled={loading} fullWidth placeholder="E-mail" type="email" />
         <Input
+          onChange={e => setEmail(e.target.value)}
+          onKeyPress={onKeyPress}
+          value={email}
+          disabled={loading}
+          fullWidth
+          placeholder="E-mail"
+          type="email"
+        />
+        <Input
+          onChange={e => setPassword(e.target.value)}
+          onKeyPress={onKeyPress}
+          value={password}
           disabled={loading}
           fullWidth
           placeholder="Wachtwoord"
           type="password"
         />
+
         <Button
           primary
           loading={loading}
           className={styles.LoginBtn}
-          onClick={() => handleLogin(history)}
+          onClick={handleLogin}
         >
           login
         </Button>

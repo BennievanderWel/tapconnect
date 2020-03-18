@@ -7,6 +7,7 @@ export default function Button({
   className = "",
   loading = false,
   outlined = false,
+  inverted = false,
   ...props
 }) {
   const styles = {
@@ -27,6 +28,11 @@ export default function Button({
   if (outlined) {
     classes.push("is-outlined");
   }
+
+  if (inverted) {
+    classes.push("is-inverted");
+  }
+
 
   classes.push(className);
 
