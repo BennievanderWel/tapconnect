@@ -1,13 +1,7 @@
 .Container {
-  height: calc(100% - 70px);
-  padding: 24px;
+  display: flex;
+  height: 100%;
+  min-height: 500px;
+  padding: 0;
   width: 100%;
-
-  > h1 {
-    margin-top: 0;
-  }
-
-  > div {
-    margin-top: 24px;
-  }
 }

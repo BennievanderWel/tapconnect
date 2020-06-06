@@ -7,13 +7,13 @@ import Button from '../../ui/button/Button';
 import styles from './Login.module.scss';
 
 export default function Login({ onLogin }) {
-  const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('rens@test.com');
-  const [password, setPassword] = useState('test');
+  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState('rens@test.nl');
+  const [password, setPassword] = useState('password');
 
   function handleLogin() {
-    setLoading(true);
-    onLogin(email, password).catch(() => setLoading(false));
+    setIsLoading(true);
+    onLogin(email, password).catch(() => setIsLoading(false));
   }
 
   function onKeyPress(e) {
@@ -27,27 +27,27 @@ export default function Login({ onLogin }) {
       <h1>TapConnect</h1>
       <Panel width="m" className={styles.LoginPanel}>
         <Input
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           onKeyPress={onKeyPress}
           value={email}
-          disabled={loading}
-          fullWidth
+          disabled={isLoading}
+          isFullWidth
           placeholder="E-mail"
           type="email"
         />
         <Input
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           onKeyPress={onKeyPress}
           value={password}
-          disabled={loading}
-          fullWidth
+          disabled={isLoading}
+          isFullWidth
           placeholder="Wachtwoord"
           type="password"
         />
 
         <Button
-          primary
-          loading={loading}
+          isPrimary
+          isLoading={isLoading}
           className={styles.LoginBtn}
           onClick={handleLogin}
         >

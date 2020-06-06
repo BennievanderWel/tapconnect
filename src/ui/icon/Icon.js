@@ -5,14 +5,20 @@ import {
   faSignInAlt,
   faTrashAlt,
   faPlusCircle,
-  faUserPlus
+  faUserCircle,
+  faUserPlus,
+  faUser,
+  faPaperPlane,
 } from '@fortawesome/free-solid-svg-icons';
 
 const icons = {
   logout: faSignInAlt,
   add: faPlusCircle,
   addUser: faUserPlus,
-  delete: faTrashAlt
+  user: faUser,
+  delete: faTrashAlt,
+  userCircle: faUserCircle,
+  paperPlane: faPaperPlane,
 };
 
 function Icon({ icon }) {

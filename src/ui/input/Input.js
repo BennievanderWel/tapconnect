@@ -1,9 +1,13 @@
-import React from "react";
+import React from 'react';
 
-export default function Input({ id, label, fullWidth, ...props }) {
-  const styles = {
-    width: fullWidth ? "100%" : "auto"
-  };
+export default function Input({ id, label, className, isPrimary, ...props }) {
+  const classes = ['input'];
 
-  return <input {...props} style={styles} className="input" id={id} />;
+  if (isPrimary) {
+    classes.push('is-primary');
+  }
+
+  classes.push(className);
+
+  return <input {...props} className={classes.join(' ')} id={id} />;
 }
