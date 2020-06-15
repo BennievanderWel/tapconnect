@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Button from '../../ui/button/Button';
-
 import styles from './ChatList.module.scss';
 import Icon from '../../ui/icon/Icon';
 

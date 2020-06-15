@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import * as firebase from 'firebase/app';
 
 import AppContext from '../App.context';
@@ -11,6 +11,33 @@ import styles from './Chat.module.scss';
 const Chat = ({ chat }) => {
   const currentUser = useContext(AppContext).currentUser;
   const [input, setInput] = useState('');
+  const [isAutoScrolling, setIsAutoScrolling] = useState(true);
+  const [isScrolledToTop, setIsScrolledToTop] = useState(false);
+  const [isScrollable, setIsScrollable] = useState(false);
+  const messagesRef = useRef(null);
+
+  useEffect(() => {
+    const el = messagesRef.current;
+
+    // Enable auto scroll if the chatBox is scrolled down 100%
+    function trackScrolling() {
+      setIsAutoScrolling(el.scrollHeight - el.offsetHeight === el.scrollTop);
+      setIsScrolledToTop(el.scrollTop === 0);
+      setIsScrollable(el.scrollHeight - el.offsetHeight > 0);
+      console.log('scrollTop', el.scrollTop);
+      console.log('scrollHeight', el.scrollHeight);
+      console.log('offsetHeight', el.offsetHeight);
+    }
+
+    el.addEventListener('scroll', trackScrolling);
+    return () => el.removeEventListener('scroll', trackScrolling);
+  });
+
+  useEffect(() => {
+    if (isAutoScrolling) {
+      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+    }
+  });
 
   function sendMsg() {
     if (!input) return;
@@ -43,7 +70,8 @@ const Chat = ({ chat }) => {
   return (
     <div className={styles.Container}>
       <h2>{chat.name}</h2>
-      <ul className={styles.Messages}>
+      {isScrollable && !isScrolledToTop && <div className={styles.ShadowTop} />}
+      <ul className={styles.Messages} ref={messagesRef}>
         {chat.messages.map((msg) => (
           <li
             className={`${styles.Message} ${
@@ -57,6 +85,9 @@ const Chat = ({ chat }) => {
           </li>
         ))}
       </ul>
+      {isScrollable && !isAutoScrolling && (
+        <div className={styles.ShadowBottom} />
+      )}
       <div className={styles.InputBox}>
         <Input
           isPrimary

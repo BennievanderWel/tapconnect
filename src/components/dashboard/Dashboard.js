@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React from 'react';
 import * as firebase from 'firebase/app';
 
 import AppContext from '../App.context';
