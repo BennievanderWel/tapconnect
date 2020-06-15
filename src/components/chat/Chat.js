@@ -24,9 +24,6 @@ const Chat = ({ chat }) => {
       setIsAutoScrolling(el.scrollHeight - el.offsetHeight === el.scrollTop);
       setIsScrolledToTop(el.scrollTop === 0);
       setIsScrollable(el.scrollHeight - el.offsetHeight > 0);
-      console.log('scrollTop', el.scrollTop);
-      console.log('scrollHeight', el.scrollHeight);
-      console.log('offsetHeight', el.offsetHeight);
     }
 
     el.addEventListener('scroll', trackScrolling);
