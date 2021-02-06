@@ -5,15 +5,22 @@ import Input from '../../ui/input/Input';
 import Button from '../../ui/button/Button';
 
 import styles from './Login.module.scss';
+import { loginUser } from '../../api';
 
-export default function Login({ onLogin }) {
+export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
+  // TODO: Remove test creds
   const [email, setEmail] = useState('rens@test.nl');
   const [password, setPassword] = useState('password');
 
   function handleLogin() {
     setIsLoading(true);
-    onLogin(email, password).catch(() => setIsLoading(false));
+    // If loginUser is succcessfull this component will be unmounted
+    // so there is no need to setLoading(false)
+    loginUser(email, password).catch((err) => {
+      console.log(err);
+      setIsLoading(false);
+    });
   }
 
   function onKeyPress(e) {

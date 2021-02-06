@@ -1,11 +1,10 @@
 import React from 'react';
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
 
 import Login from './login/Login';
 import Dashboard from './dashboard/Dashboard';
 
 import AppContext from './App.context';
+import { startListeningToLoggedInUserChanges } from '../api';
 
 import styles from './App.module.scss';
 import 'bulma/bulma.sass';
@@ -17,37 +16,33 @@ class App extends React.Component {
     loading: true,
   };
 
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged((userDoc) => {
-      if (userDoc) {
-        firebase
-          .firestore()
-          .collection('users')
-          .doc(userDoc.uid)
-          .get()
-          .then((user) => {
-            this.setState({
-              currentUser: { ...user.data(), uid: userDoc.uid },
-              authenticated: true,
-              loading: false,
-            });
-          });
+  async componentDidMount() {
+    /**
+     * Function to update state with user and authentication data
+     *
+     * @param {Object} user User object
+     */
+    function updateState(user) {
+      let state;
+      if (user) {
+        state = {
+          currentUser: user,
+          authenticated: true,
+          loading: false,
+        };
       } else {
-        this.setState({
+        state = {
           currentUser: null,
           authenticated: false,
           loading: false,
-        });
+        };
       }
-    });
-  }
 
-  login(email, password) {
-    return firebase.auth().signInWithEmailAndPassword(email, password);
-  }
+      this.setState(state);
+    }
 
-  logout() {
-    firebase.auth().signOut();
+    // TODO: Handle unhappy path
+    startListeningToLoggedInUserChanges(updateState.bind(this));
   }
 
   render() {
@@ -55,9 +50,7 @@ class App extends React.Component {
 
     return (
       <div className={styles.Container}>
-        {!authenticated && !loading && (
-          <Login onLogin={this.login.bind(this)} />
-        )}
+        {!authenticated && !loading && <Login />}
         {currentUser && authenticated && !loading && (
           <AppContext.Provider value={{ currentUser }}>
             <Dashboard />
