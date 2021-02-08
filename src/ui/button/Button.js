@@ -8,6 +8,7 @@ export default function Button({
   isLoading = false,
   isOutlined = false,
   isInverted = false,
+  isDisabled = false,
   ...props
 }) {
   const styles = {
@@ -36,7 +37,12 @@ export default function Button({
   classes.push(className);
 
   return (
-    <button {...props} style={styles} className={classes.join(' ')}>
+    <button
+      {...props}
+      style={styles}
+      disabled={isDisabled}
+      className={classes.join(' ')}
+    >
       {children}
     </button>
   );

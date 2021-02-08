@@ -7,8 +7,9 @@ import Button from './../../ui/button/Button';
 import Icon from './../../ui/icon/Icon';
 
 import styles from './Chat.module.scss';
+import { deleteMsg, sendMsg } from '../../api';
 
-const Chat = ({ chat }) => {
+const Chat = ({ chatId, messages, chatName }) => {
   const currentUser = useContext(AppContext).currentUser;
   const [input, setInput] = useState('');
   const [isAutoScrolling, setIsAutoScrolling] = useState(true);
@@ -36,26 +37,17 @@ const Chat = ({ chat }) => {
     }
   });
 
-  function sendMsg() {
-    if (!input) return;
-
+  function send() {
+    // TODO: Let the backend add the timestamp
     const msg = {
-      chatId: chat.id,
+      chatId: chatId,
       senderId: currentUser.uid,
       createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
       content: input,
     };
 
-    firebase
-      .firestore()
-      .collection('messages')
-      .doc()
-      .set(msg)
-      .then(() => setInput(''));
-  }
-
-  function deleteMsg(id) {
-    firebase.firestore().collection('messages').doc(id).delete();
+    // TODO: Handle error case
+    sendMsg(msg).then(() => setInput(''));
   }
 
   function onKeyPress(e) {
@@ -66,21 +58,34 @@ const Chat = ({ chat }) => {
 
   return (
     <div className={styles.Container}>
-      <h2>{chat.name}</h2>
+      <h2>{chatName}</h2>
       {isScrollable && !isScrolledToTop && <div className={styles.ShadowTop} />}
       <ul className={styles.Messages} ref={messagesRef}>
-        {chat.messages.map((msg) => (
-          <li
-            className={`${styles.Message} ${
-              msg.senderId === currentUser.uid
-                ? styles.AlignRight
-                : styles.AlignLeft
-            }`}
-            key={msg.id}
-          >
-            {msg.content} <button onClick={() => deleteMsg(msg.id)}>x</button>
+        {messages.length > 0 ? (
+          messages.map((msg) => (
+            <li
+              className={`${styles.Message} ${
+                msg.senderId === currentUser.uid
+                  ? styles.AlignRight
+                  : styles.AlignLeft
+              }`}
+              key={msg.id}
+            >
+              {msg.content}
+              <button
+                className={styles.DeleteBtn}
+                key={null}
+                onClick={() => deleteMsg(chatId)}
+              >
+                x
+              </button>
+            </li>
+          ))
+        ) : (
+          <li className={`${styles.Message} ${styles.Center}`}>
+            Je hebt nog geen berichten. Typ je eerste bericht..
           </li>
-        ))}
+        )}
       </ul>
       {isScrollable && !isAutoScrolling && (
         <div className={styles.ShadowBottom} />
@@ -93,7 +98,7 @@ const Chat = ({ chat }) => {
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={onKeyPress}
         />
-        <Button onClick={sendMsg} isPrimary>
+        <Button onClick={sendMsg} isPrimary isDisabled={!input}>
           <Icon icon="paperPlane" />{' '}
         </Button>
       </div>

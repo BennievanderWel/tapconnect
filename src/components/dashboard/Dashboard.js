@@ -19,8 +19,11 @@ class Dashboard extends React.Component {
 
   componentDidMount() {
     function updateState(chats) {
-      // For now, we just select the first chat
-      this.setState({ chats, selectedChatId: Object.keys(chats)[0] });
+      // If no chat is selected, select the first chat
+      this.setState({
+        chats,
+        selectedChatId: this.state.selectedChatId || Object.keys(chats)[0],
+      });
     }
 
     getChatsForUser(this.context.currentUser.uid, updateState.bind(this));
@@ -35,7 +38,13 @@ class Dashboard extends React.Component {
           onSelectChat={(chat) => this.setState({ selectedChatId: chat.id })}
           chats={chats}
         />
-        {selectedChatId && <Chat chat={chats[selectedChatId]} />}
+        {selectedChatId && (
+          <Chat
+            chatId={chats[selectedChatId].id}
+            messages={chats[selectedChatId].messages}
+            chatName={chats[selectedChatId].name}
+          />
+        )}
       </div>
     );
   }

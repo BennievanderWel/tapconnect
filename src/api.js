@@ -57,6 +57,24 @@ export function logoutUser() {
 }
 
 /**
+ * Send a message
+ *
+ * @param {Object} content The message object
+ */
+export function sendMsg(content) {
+  return firebase.firestore().collection(MESSAGES).doc().set(content);
+}
+
+/**
+ * Delete a message
+ *
+ * @param {String} id ID of the message
+ */
+export function deleteMsg(id) {
+  firebase.firestore().collection(MESSAGES).doc(id).delete();
+}
+
+/**
  * Get all the chats in which the user is a member
  *
  * @param {Object} uid User ID

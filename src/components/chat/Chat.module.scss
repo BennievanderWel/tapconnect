@@ -91,6 +91,18 @@
   border: 1px solid #00d1b2;
 }
 
+.Center {
+  align-self: center;
+  border-radius: 5px 0 5px 5px;
+  border: 1px solid grey;
+  font-size: 16px;
+  color: grey;
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+  font-style: italic;
+}
+
 .InputBox {
   width: 400px;
   margin-top: 24px;
@@ -102,4 +114,7 @@
   input {
     width: 340px;
   }
+}
+
+.DeleteBtn {
 }
