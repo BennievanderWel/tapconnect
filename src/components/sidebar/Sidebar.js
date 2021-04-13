@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 import ChatList from '../chatList/ChatList';
 import Icon from '../../ui/icon/Icon';
@@ -7,9 +8,11 @@ import AppContext from '../App.context';
 import styles from './Sidebar.module.scss';
 
 const Sidebar = ({ onSelectChat, chats }) => {
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
+
   const currentUser = useContext(AppContext).currentUser;
 
-  return (
+  return !isTabletOrMobile ? (
     <div className={styles.Container}>
       <div className={styles.Header}>
         <h1>TapConnect</h1>
@@ -20,7 +23,7 @@ const Sidebar = ({ onSelectChat, chats }) => {
         {currentUser.name}
       </div>
     </div>
-  );
+  ) : null;
 };
 
 export default Sidebar;
