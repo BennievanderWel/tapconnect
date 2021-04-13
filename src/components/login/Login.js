@@ -9,9 +9,8 @@ import { loginUser } from '../../api';
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
-  // TODO: Remove test creds
-  const [email, setEmail] = useState('rens@test.nl');
-  const [password, setPassword] = useState('password');
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
 
   function handleLogin() {
     setIsLoading(true);
