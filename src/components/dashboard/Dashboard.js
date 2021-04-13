@@ -6,7 +6,7 @@ import Sidebar from '../sidebar/Sidebar';
 import AppContext from '../App.context';
 
 import styles from './Dashboard.module.scss';
-import { getChatsForUser } from '../../api';
+import { deleteMsg, getChatsForUser } from '../../api';
 
 class Dashboard extends React.Component {
   static contextType = AppContext;
@@ -29,6 +29,16 @@ class Dashboard extends React.Component {
     getChatsForUser(this.context.currentUser.uid, updateState.bind(this));
   }
 
+  deleteMessageFromChat(msgId) {
+    // TODO: Ugly full state overwrite
+    deleteMsg(msgId);
+    const newChats = { ...this.state.chats };
+    newChats[this.state.selectedChatId].messages = newChats[
+      this.state.selectedChatId
+    ].messages.filter((m) => m.id !== msgId);
+    this.setState({ chats: newChats });
+  }
+
   render() {
     const { chats, selectedChatId } = this.state;
 
@@ -40,6 +50,7 @@ class Dashboard extends React.Component {
         />
         {selectedChatId && (
           <Chat
+            onDelete={this.deleteMessageFromChat.bind(this)}
             chatId={chats[selectedChatId].id}
             messages={chats[selectedChatId].messages}
             chatName={chats[selectedChatId].name}

@@ -7,9 +7,9 @@ import Button from './../../ui/button/Button';
 import Icon from './../../ui/icon/Icon';
 
 import styles from './Chat.module.scss';
-import { deleteMsg, sendMsg } from '../../api';
+import { sendMsg } from '../../api';
 
-const Chat = ({ chatId, messages, chatName }) => {
+const Chat = ({ chatId, messages, chatName, onDelete }) => {
   const currentUser = useContext(AppContext).currentUser;
   const [input, setInput] = useState('');
   const [isAutoScrolling, setIsAutoScrolling] = useState(true);
@@ -75,7 +75,7 @@ const Chat = ({ chatId, messages, chatName }) => {
               <button
                 className={styles.DeleteBtn}
                 key={null}
-                onClick={() => deleteMsg(chatId)}
+                onClick={() => onDelete(msg.id)}
               >
                 x
               </button>
