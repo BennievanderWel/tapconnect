@@ -52,7 +52,7 @@ const Chat = ({ chatId, messages, chatName }) => {
 
   function onKeyPress(e) {
     if (e.key === 'Enter') {
-      sendMsg();
+      send();
     }
   }
 
@@ -98,7 +98,7 @@ const Chat = ({ chatId, messages, chatName }) => {
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={onKeyPress}
         />
-        <Button onClick={sendMsg} isPrimary isDisabled={!input}>
+        <Button onClick={send} isPrimary isDisabled={!input}>
           <Icon icon="paperPlane" />{' '}
         </Button>
       </div>
