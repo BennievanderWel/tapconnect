@@ -15,6 +15,7 @@ class Dashboard extends React.Component {
     currentUser: this.context.currentUser,
     chats: {},
     selectedChatId: null,
+    isSidebarOpen: true,
   };
 
   componentDidMount() {
@@ -39,21 +40,29 @@ class Dashboard extends React.Component {
     this.setState({ chats: newChats });
   }
 
+  toggleSidebar() {
+    this.setState((prevState) => ({ isSidebarOpen: !prevState.isSidebarOpen }));
+  }
+
   render() {
-    const { chats, selectedChatId } = this.state;
+    const { chats, selectedChatId, isSidebarOpen } = this.state;
 
     return (
       <div className={styles.Container}>
-        <Sidebar
-          onSelectChat={(chat) => this.setState({ selectedChatId: chat.id })}
-          chats={chats}
-        />
+        {isSidebarOpen && (
+          <Sidebar
+            onSelectChat={(chat) => this.setState({ selectedChatId: chat.id })}
+            chats={chats}
+            toggle={this.toggleSidebar.bind(this)}
+          />
+        )}
         {selectedChatId && (
           <Chat
             onDelete={this.deleteMessageFromChat.bind(this)}
             chatId={chats[selectedChatId].id}
             messages={chats[selectedChatId].messages}
             chatName={chats[selectedChatId].name}
+            toggleSidebar={this.toggleSidebar.bind(this)}
           />
         )}
       </div>

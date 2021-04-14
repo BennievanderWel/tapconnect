@@ -9,7 +9,7 @@ import Icon from './../../ui/icon/Icon';
 import styles from './Chat.module.scss';
 import { sendMsg } from '../../api';
 
-const Chat = ({ chatId, messages, chatName, onDelete }) => {
+const Chat = ({ chatId, messages, chatName, onDelete, toggleSidebar }) => {
   const currentUser = useContext(AppContext).currentUser;
   const [input, setInput] = useState('');
   const [isAutoScrolling, setIsAutoScrolling] = useState(true);
@@ -58,6 +58,13 @@ const Chat = ({ chatId, messages, chatName, onDelete }) => {
 
   return (
     <div className={styles.Container}>
+      <Button
+        icon="chevronRight"
+        className={styles.toggleSidebarBtn}
+        onClick={toggleSidebar}
+        isRounded
+        isPrimary
+      />
       <h2>{chatName}</h2>
       {isScrollable && !isScrolledToTop && <div className={styles.ShadowTop} />}
       <ul className={styles.Messages} ref={messagesRef}>

@@ -9,15 +9,16 @@ import styles from './Sidebar.module.scss';
 import Button from '../../ui/button/Button';
 import { logoutUser } from '../../api';
 
-const Sidebar = ({ onSelectChat, chats }) => {
+const Sidebar = ({ onSelectChat, chats, toggle }) => {
   const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1000px)' });
 
   const currentUser = useContext(AppContext).currentUser;
 
-  return !isTabletOrMobile ? (
+  return (
     <div className={styles.Container}>
       <div className={styles.Header}>
         <h1>TapConnect</h1>
+        <Button isRounded icon="chevronLeft" onClick={toggle} />
       </div>
       <ChatList onSelectChat={onSelectChat} chats={chats} />
       <div className={styles.UserInfo}>
@@ -28,7 +29,7 @@ const Sidebar = ({ onSelectChat, chats }) => {
         Uitloggen
       </Button>
     </div>
-  ) : null;
+  );
 };
 
 export default Sidebar;

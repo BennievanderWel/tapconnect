@@ -13,6 +13,7 @@ export default function Button({
   isOutlined = false,
   isInverted = false,
   isDisabled = false,
+  isRounded = false,
   ...props
 }) {
   const style = {
@@ -38,10 +39,13 @@ export default function Button({
     classes.push('is-inverted');
   }
 
+  if (isRounded) {
+    classes.push('is-rounded');
+  }
+
   classes.push(styles.Container);
   classes.push('henk');
   classes.push(className);
-
   return (
     <button
       {...props}
@@ -50,7 +54,7 @@ export default function Button({
       className={classes.join(' ')}
     >
       {icon && (
-        <span className={styles.Icon}>
+        <span className={children ? styles.Icon : ''}>
           <Icon icon={icon} />
         </span>
       )}

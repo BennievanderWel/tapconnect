@@ -10,6 +10,8 @@ import {
   faUser,
   faPaperPlane,
   faSignOutAlt,
+  faAngleLeft,
+  faAngleRight,
 } from '@fortawesome/free-solid-svg-icons';
 
 const icons = {
@@ -21,6 +23,8 @@ const icons = {
   userCircle: faUserCircle,
   paperPlane: faPaperPlane,
   logout: faSignInAlt,
+  chevronLeft: faAngleLeft,
+  chevronRight: faAngleRight,
 };
 
 const Icon = ({ icon }) => {
