@@ -9,6 +9,7 @@ import {
   faUserPlus,
   faUser,
   faPaperPlane,
+  faSignOutAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
 const icons = {
@@ -19,10 +20,11 @@ const icons = {
   delete: faTrashAlt,
   userCircle: faUserCircle,
   paperPlane: faPaperPlane,
+  logout: faSignInAlt,
 };
 
-function Icon({ icon }) {
+const Icon = ({ icon }) => {
   return <FontAwesomeIcon icon={icons[icon]} />;
-}
+};
 
 export default Icon;

@@ -1,7 +1,11 @@
 import React from 'react';
+import Icon from '../icon/Icon';
+
+import styles from './Button.module.scss';
 
 export default function Button({
   children,
+  icon = null,
   isFullWidth = false,
   isPrimary = false,
   className = '',
@@ -11,7 +15,7 @@ export default function Button({
   isDisabled = false,
   ...props
 }) {
-  const styles = {
+  const style = {
     width: isFullWidth ? '100%' : 'fit-content',
   };
 
@@ -34,15 +38,22 @@ export default function Button({
     classes.push('is-inverted');
   }
 
+  classes.push(styles.Container);
+  classes.push('henk');
   classes.push(className);
 
   return (
     <button
       {...props}
-      style={styles}
+      style={style}
       disabled={isDisabled}
       className={classes.join(' ')}
     >
+      {icon && (
+        <span className={styles.Icon}>
+          <Icon icon={icon} />
+        </span>
+      )}
       {children}
     </button>
   );
