@@ -11,7 +11,7 @@ export default function ChatList({ chats, onSelectChat }) {
           <li key={chat.id}>
             <button
               className={styles.ChatItem}
-              onClick={() => onSelectChat(chat)}
+              onClick={() => onSelectChat(chat.id)}
             >
               <Icon icon="user" />
               {chat.name}

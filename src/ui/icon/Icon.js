@@ -12,6 +12,7 @@ import {
   faSignOutAlt,
   faAngleLeft,
   faAngleRight,
+  faBars,
 } from '@fortawesome/free-solid-svg-icons';
 
 const icons = {
@@ -25,6 +26,7 @@ const icons = {
   logout: faSignInAlt,
   chevronLeft: faAngleLeft,
   chevronRight: faAngleRight,
+  menu: faBars,
 };
 
 const Icon = ({ icon }) => {

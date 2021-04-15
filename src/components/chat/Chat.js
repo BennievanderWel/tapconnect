@@ -38,6 +38,8 @@ const Chat = ({ chatId, messages, chatName, onDelete, toggleSidebar }) => {
   });
 
   function send() {
+    if (!input) return;
+
     // TODO: Let the backend add the timestamp
     const msg = {
       chatId: chatId,
@@ -58,14 +60,6 @@ const Chat = ({ chatId, messages, chatName, onDelete, toggleSidebar }) => {
 
   return (
     <div className={styles.Container}>
-      <Button
-        icon="chevronRight"
-        className={styles.toggleSidebarBtn}
-        onClick={toggleSidebar}
-        isRounded
-        isPrimary
-      />
-      <h2>{chatName}</h2>
       {isScrollable && !isScrolledToTop && <div className={styles.ShadowTop} />}
       <ul className={styles.Messages} ref={messagesRef}>
         {messages.length > 0 ? (
@@ -79,13 +73,15 @@ const Chat = ({ chatId, messages, chatName, onDelete, toggleSidebar }) => {
               key={msg.id}
             >
               {msg.content}
-              <button
-                className={styles.DeleteBtn}
-                key={null}
-                onClick={() => onDelete(msg.id)}
-              >
-                x
-              </button>
+              {process.env.NODE_ENV === 'development' && (
+                <button
+                  className={styles.DeleteBtn}
+                  key={null}
+                  onClick={() => onDelete(msg.id)}
+                >
+                  x
+                </button>
+              )}
             </li>
           ))
         ) : (

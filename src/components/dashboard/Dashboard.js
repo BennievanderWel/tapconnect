@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 
 import Chat from '../chat/Chat';
 import Sidebar from '../sidebar/Sidebar';
@@ -7,67 +7,76 @@ import AppContext from '../App.context';
 
 import styles from './Dashboard.module.scss';
 import { deleteMsg, getChatsForUser } from '../../api';
+import Header from '../header/Header';
+import { useIsSmallScreen } from '../utils';
 
-class Dashboard extends React.Component {
-  static contextType = AppContext;
+const Dashboard = () => {
+  const appContext = useContext(AppContext);
+  const currentUser = appContext.currentUser;
+  const [chats, setChats] = useState({});
+  const [selectedChatId, setSelectedChatId] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  state = {
-    currentUser: this.context.currentUser,
-    chats: {},
-    selectedChatId: null,
-    isSidebarOpen: true,
-  };
-
-  componentDidMount() {
-    function updateState(chats) {
+  useEffect(() => {
+    const updateState = (chats) => {
       // If no chat is selected, select the first chat
-      this.setState({
-        chats,
-        selectedChatId: this.state.selectedChatId || Object.keys(chats)[0],
-      });
-    }
+      setChats(chats);
+      setSelectedChatId(selectedChatId || Object.keys(chats)[0]);
+    };
 
-    getChatsForUser(this.context.currentUser.uid, updateState.bind(this));
-  }
+    getChatsForUser(currentUser.uid, updateState);
+  }, []);
 
-  deleteMessageFromChat(msgId) {
+  const deleteMessageFromChat = (msgId) => {
     // TODO: Ugly full state overwrite
     deleteMsg(msgId);
-    const newChats = { ...this.state.chats };
-    newChats[this.state.selectedChatId].messages = newChats[
-      this.state.selectedChatId
+    const newChats = { ...chats };
+    newChats[selectedChatId].messages = newChats[
+      selectedChatId
     ].messages.filter((m) => m.id !== msgId);
-    this.setState({ chats: newChats });
-  }
+    setChats(newChats);
+  };
 
-  toggleSidebar() {
-    this.setState((prevState) => ({ isSidebarOpen: !prevState.isSidebarOpen }));
-  }
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
-  render() {
-    const { chats, selectedChatId, isSidebarOpen } = this.state;
+  const handleSelectChat = (chatId) => {
+    setSelectedChatId(chatId);
+    toggleSidebar();
+  };
 
-    return (
-      <div className={styles.Container}>
+  const content = (
+    <div className={styles.Container}>
+      <Header
+        selectedChat={chats[selectedChatId]}
+        toggleSidebar={toggleSidebar}
+        isSidebarOpen={isSidebarOpen}
+      />
+      <div className={styles.Content}>
         {isSidebarOpen && (
           <Sidebar
-            onSelectChat={(chat) => this.setState({ selectedChatId: chat.id })}
+            onSelectChat={handleSelectChat}
             chats={chats}
-            toggle={this.toggleSidebar.bind(this)}
+            toggle={toggleSidebar}
           />
         )}
-        {selectedChatId && (
+        {!(useIsSmallScreen() && isSidebarOpen) && (
           <Chat
-            onDelete={this.deleteMessageFromChat.bind(this)}
+            onDelete={deleteMessageFromChat}
             chatId={chats[selectedChatId].id}
             messages={chats[selectedChatId].messages}
             chatName={chats[selectedChatId].name}
-            toggleSidebar={this.toggleSidebar.bind(this)}
+            toggleSidebar={toggleSidebar}
           />
         )}
       </div>
-    );
-  }
-}
+    </div>
+  );
+
+  const loader = 'Loading';
+
+  return selectedChatId ? content : loader;
+};
 
 export default Dashboard;
