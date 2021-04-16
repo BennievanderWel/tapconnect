@@ -16,12 +16,13 @@ const Dashboard = () => {
   const [chats, setChats] = useState({});
   const [selectedChatId, setSelectedChatId] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const isSmallScreen = useIsSmallScreen();
 
   useEffect(() => {
-    const updateState = (chats) => {
+    const updateState = (newChats) => {
       // If no chat is selected, select the first chat
-      setChats(chats);
-      setSelectedChatId(selectedChatId || Object.keys(chats)[0]);
+      setChats(newChats);
+      setSelectedChatId(selectedChatId || Object.keys(newChats)[0]);
     };
 
     getChatsForUser(currentUser.uid, updateState);
@@ -43,10 +44,10 @@ const Dashboard = () => {
 
   const handleSelectChat = (chatId) => {
     setSelectedChatId(chatId);
-    toggleSidebar();
+    if (isSmallScreen) toggleSidebar();
   };
 
-  const content = (
+  const content = selectedChatId && (
     <div className={styles.Container}>
       <Header
         selectedChat={chats[selectedChatId]}
@@ -61,7 +62,7 @@ const Dashboard = () => {
             toggle={toggleSidebar}
           />
         )}
-        {!(useIsSmallScreen() && isSidebarOpen) && (
+        {!(isSmallScreen && isSidebarOpen) && (
           <Chat
             onDelete={deleteMessageFromChat}
             chatId={chats[selectedChatId].id}
@@ -74,7 +75,7 @@ const Dashboard = () => {
     </div>
   );
 
-  const loader = 'Loading';
+  const loader = 'Loading..';
 
   return selectedChatId ? content : loader;
 };
