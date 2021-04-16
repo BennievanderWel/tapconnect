@@ -4,9 +4,12 @@
   flex-direction: column;
   padding-top: 200px;
   align-items: center;
+  max-width: 400px;
+  width: calc(100% - 30px);
 }
 
 .LoginPanel {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

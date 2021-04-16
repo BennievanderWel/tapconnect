@@ -69,7 +69,7 @@
 }
 
 .Message {
-  // margin-top: 8px;
+  margin-top: 8px;
   padding: 3px 6px;
   background: white;
   font-size: 16px;
@@ -78,13 +78,13 @@
 
 .AlignLeft {
   align-self: flex-start;
-  border-radius: 0 5px 5px 5px;
+  border-radius: 0 10px 10px 10px;
   border: 1px solid lightgrey;
 }
 
 .AlignRight {
   align-self: flex-end;
-  border-radius: 5px 0 5px 5px;
+  border-radius: 10px 0 10px 10px;
   border: 1px solid #00d1b2;
 }
 
@@ -101,11 +101,14 @@
 }
 
 .InputBox {
-  width: 400px;
+  display: flex;
+  max-width: 400px;
+  width: calc(100% - 20px);
   margin-top: 38px;
 
   button {
     float: right;
+    margin-left: 10px;
   }
 
   input {

@@ -31,7 +31,7 @@ export default function Login() {
   return (
     <div className={styles.Container}>
       <h1>TapConnect</h1>
-      <Panel width="m" className={styles.LoginPanel}>
+      <Panel className={styles.LoginPanel}>
         <Input
           onChange={(e) => setEmail(e.target.value)}
           onKeyPress={onKeyPress}
