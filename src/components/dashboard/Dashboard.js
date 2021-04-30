@@ -21,7 +21,7 @@ const Dashboard = () => {
   useEffect(() => {
     const updateState = (newChats) => {
       // If no chat is selected, select the first chat
-      setChats(newChats);
+      setChats({ ...newChats }); // Destructure in order to trigger rerender
       setSelectedChatId(selectedChatId || Object.keys(newChats)[0]);
     };
 
@@ -76,8 +76,36 @@ const Dashboard = () => {
   );
 
   const loader = 'Loading..';
-
-  return selectedChatId ? getContent() : loader;
+  console.log(1);
+  return selectedChatId ? (
+    <div className={styles.Container}>
+      <Header
+        selectedChat={chats[selectedChatId]}
+        toggleSidebar={toggleSidebar}
+        isSidebarOpen={isSidebarOpen}
+      />
+      <div className={styles.Content}>
+        {isSidebarOpen && (
+          <Sidebar
+            onSelectChat={handleSelectChat}
+            chats={chats}
+            toggle={toggleSidebar}
+          />
+        )}
+        {!(isSmallScreen && isSidebarOpen) && (
+          <Chat
+            onDelete={deleteMessageFromChat}
+            chatId={chats[selectedChatId].id}
+            messages={chats[selectedChatId].messages}
+            chatName={chats[selectedChatId].name}
+            toggleSidebar={toggleSidebar}
+          />
+        )}
+      </div>
+    </div>
+  ) : (
+    loader
+  );
 };
 
 export default Dashboard;
