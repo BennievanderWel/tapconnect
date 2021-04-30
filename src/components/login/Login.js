@@ -14,8 +14,6 @@ export default function Login() {
 
   function handleLogin() {
     setIsLoading(true);
-    // If loginUser is succcessfull this component will be unmounted
-    // so there is no need to setLoading(false)
     loginUser(email, password).catch((err) => {
       console.log(err);
       setIsLoading(false);

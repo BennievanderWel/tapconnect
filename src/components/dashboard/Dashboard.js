@@ -47,7 +47,7 @@ const Dashboard = () => {
     if (isSmallScreen) toggleSidebar();
   };
 
-  const content = selectedChatId && (
+  const getContent = () => (
     <div className={styles.Container}>
       <Header
         selectedChat={chats[selectedChatId]}
@@ -77,7 +77,7 @@ const Dashboard = () => {
 
   const loader = 'Loading..';
 
-  return selectedChatId ? content : loader;
+  return selectedChatId ? getContent() : loader;
 };
 
 export default Dashboard;
