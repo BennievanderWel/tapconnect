@@ -76,7 +76,7 @@ const Dashboard = () => {
   );
 
   const loader = 'Loading..';
-  console.log(1);
+
   return selectedChatId ? (
     <div className={styles.Container}>
       <Header
