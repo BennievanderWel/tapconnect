@@ -16,7 +16,7 @@
     "bulma": "^0.8.0",
     "classnames": "^2.3.1",
     "firebase": "^7.14.3",
-    "node-sass": "^4.13.0",
+    "node-sass": "^7.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-responsive": "^8.2.0",
